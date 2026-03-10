@@ -24,16 +24,26 @@ class Fuck {
 
     std::string fuckThing = "JAVA";
 
-    static const std::vector<std::vector<const char*>> letters;
-    static const std::vector<std::vector<const char*>> man;
+    static const std::vector<std::vector<const char*>> letters; // ascii code of letter - 32 = index
+    static const std::vector<std::vector<const char*>> man; // i0: walking frame1
+                                                            // i1: walking frame2
+                                                            // i2: stand still sideways
+                                                            // i3: stand still towards you
+                                                            // i4: does the hand thingy
 
     bool isExaggerated = false;
     bool isLoved = false;
+    
+    int manHeight;
+    int manWidth;
+    int letterHeight;
+    int letterWidth;
 
     void printSpeech();
     void printMan();
 
     public: 
+        Fuck();
         void handleArgs(char* &arg); 
         void runLinux();
         void runWindows(); //This time I will make app windows compatible
