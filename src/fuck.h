@@ -4,6 +4,12 @@
 #include <iostream>
 #include <vector>
 
+// class Man {
+//     friend class Fuck;
+//     int x = 0;
+//     int y = 0;
+// };
+
 class Fuck {
     
     const char* version = "v.0.0";
@@ -22,25 +28,34 @@ class Fuck {
     \n\
     'fuck' made with hate and pain please enjoy!\n";
 
-    std::string fuckThing = "JAVA";
+    std::vector<std::string> fuckThing = {"JAVA"};
 
     static const std::vector<std::vector<const char*>> letters; // ascii code of letter - 32 = index
     static const std::vector<std::vector<const char*>> man; // i0: walking frame1
-                                                            // i1: walking frame2
-                                                            // i2: stand still sideways
+                                                            // i1: stand still sideways
+                                                            // i2: walking frame2
                                                             // i3: stand still towards you
                                                             // i4: does the hand thingy
 
-    bool isExaggerated = false;
-    bool isLoved = false;
+    bool isExaggerated;
+    bool isLoved;
     
+    int w_Height;
+    int w_Width;
     int manHeight;
     int manWidth;
+    int man_x;
+    int man_y;
     int letterHeight;
     int letterWidth;
 
+    int maxbobbleLen;
+    int speechLen; 
+
+    int counter;
+
     void printSpeech();
-    void printMan();
+    void printMan(int idx);
 
     public: 
         Fuck();
@@ -49,6 +64,7 @@ class Fuck {
         void runWindows(); //This time I will make app windows compatible
         void runApple(); 
 
+        void temp();
 };
 
 
