@@ -49,12 +49,13 @@ class Fuck {
     int letterHeight;
     int letterWidth;
 
-    int maxbobbleLen;
+    int maxbubbleLen;
     int speechLen; 
 
     int counter;
 
     void printSpeech();
+    void clearSpeech();
     void printMan(int idx);
 
     public: 
