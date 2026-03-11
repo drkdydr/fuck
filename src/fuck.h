@@ -4,12 +4,6 @@
 #include <iostream>
 #include <vector>
 
-// class Man {
-//     friend class Fuck;
-//     int x = 0;
-//     int y = 0;
-// };
-
 class Fuck {
     
     const char* version = "v.0.0";
@@ -24,9 +18,10 @@ class Fuck {
     \n\
            -l, -love            : love, do not hate (fuck sitcoms)\n\
            -e, --exaggerate     : exaggerates your feelings and prints message\n\
-                                  in big characters\n\
+                                  in big characters (not working yet.) \n\
+           -n, --no-prefix      : removes the prefixes (like 'FUCK' or 'I LOVE')\n\
     \n\
-    'fuck' made with hate and pain please enjoy!\n";
+    'fuck' made with hate and pain please enjoy!\n"; // custom prefix eklemeye çok üşendim.
 
     std::vector<std::string> fuckThing = {"JAVA"};
 
@@ -39,6 +34,7 @@ class Fuck {
 
     bool isExaggerated;
     bool isLoved;
+    bool noPrefix;
     
     int w_Height;
     int w_Width;

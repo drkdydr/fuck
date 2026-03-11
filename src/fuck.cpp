@@ -6,6 +6,11 @@
 #include <unistd.h> //usleep
 #include <vector>
 
+//todo: 
+// custom prefix opsiyonu eklenecek.
+// exaggerate flag'i çalışır hale getirilecek.
+// bubble'da ok kısmında ufak bir problem var.
+
 const std::vector<std::vector<const char *>> Fuck::letters = {};
 const std::vector<std::vector<const char *>> Fuck::man = {
     {"                                     ",
@@ -140,6 +145,8 @@ void Fuck::handleArgs(char *&arg) {
     isLoved = true;
   } else if (!strcmp(arg, "-e") || !strcmp(arg, "--exaggerate")) {
     isExaggerated = true;
+  } else if (!strcmp(arg, "-n") || !strcmp(arg, "--no-prefix")) {
+    noPrefix = true;
   } else if (isOption) {
     std::cout << "fuck: invalid option -- '" << arg
               << "'\nTry 'fuck --help' for more information.\n";
@@ -164,8 +171,9 @@ void Fuck::handleArgs(char *&arg) {
 }
 
 Fuck::Fuck() {
-  bool isExaggerated = false;
-  bool isLoved = false;
+  isExaggerated = false;
+  isLoved = false;
+  noPrefix = false;
 
   speechLen = 4; // because of JAVA
 
@@ -218,7 +226,7 @@ void Fuck::runLinux() {
           printMan(5);
       usleep(200000);
       printSpeech();
-      usleep(800000);
+      usleep(600000);
       printMan(4);
       usleep(200000);
     } else
@@ -249,8 +257,11 @@ void Fuck::printSpeech() {
 
   if (isLoved)
     buffer = "I LOVE ";
-  else
+  else if (!noPrefix)
     buffer = "FUCK ";
+  else 
+    buffer = "";
+
   speechLen += buffer.size();
 
   int bubbleLen;
