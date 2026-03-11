@@ -10,9 +10,8 @@ int main (int argc, char *argv[]){
 
     if (argc > 1)
         for (int i=1; i<argc; i++) f->handleArgs(argv[i]);
-    f->temp();
     #ifdef __linux__ // for fucking communist femboys
-        // f->runLinux();
+        f->runLinux();
     #elif _WIN32 // for stupid windows fuckers
         printf("This application is not compatible with Windows currently. (But it will.)");
         // f->runWindows();

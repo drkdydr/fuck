@@ -10,9 +10,10 @@ const std::vector<std::vector<const char*>> Fuck::letters = {};
 const std::vector<std::vector<const char*>> Fuck::man = {
     {
      "                                     ",
+     "                                     ",
      "                /^^^\\                ",
      "               o\"  ) )               ",
-     "               (--  |                ",
+     "               (--  _|               ",
      "                 | |                 ",
      "                 |  |                ",
      "                 || |                ",
@@ -25,54 +26,71 @@ const std::vector<std::vector<const char*>> Fuck::man = {
     },
 
     {
-"                                     ",
-"                                     ",
-"                /^^^\\                ",
-"               o\"  ) )               ",
-"               (--  |                ",
-"                 | |                 ",
-"                 |  |                ",
-"                 || |                ",
-"                 || |                ",
-"                /\\  )                ",
-"               / /\\ \\                ",
-"              ()|  ()\\               ",
-"              | |    \\ \\             ",
-"             O__|    O_/             "
+    "                                     ",
+    "                                     ",
+    "                /^^^\\                ",
+    "               o\"  ) )               ",
+    "               (--  _|               ",
+    "                 | |                 ",
+    "                 |  |                ",
+    "                 || |                ",
+    "                 || |                ",
+    "                 |  )                ",
+    "                 | |                 ",
+    "                 | |                 ",
+    "                 | |                 ",
+    "                O__|                 "
     },
 
     {
-"                                     ",
-"                                     ",
-"                /^^^\\                ",
-"               o\"  ) )               ",
-"               (--  |                ",
-"                 | |                 ",
-"                 |  |                ",
-"                 || |                ",
-"                 || |                ",
-"                 |  )                ",
-"                 | |                 ",
-"                 | |                 ",
-"                 | |                 ",
-"                O__|                 ",
+    "                                     ",
+    "                                     ",
+    "                /^^^\\                ",
+    "               o\"  ) )               ",
+    "               (--  _|               ",
+    "                 | |                 ",
+    "                 |  |                ",
+    "                 || |                ",
+    "                 || |                ",
+    "                /\\  )                ",
+    "               / /\\ \\                ",
+    "              ()|  ()\\               ",
+    "              | |    \\ \\             ",
+    "             O__|    O_/             "
     },
 
     {
-"                                     ",
-"                                     ",
-"                /^^^\\                ",
-"              (| \"o\" |)              ",
-"               (_---_)               ",
-"               __| |__               ",
-"              |  . .  |              ",
-"              | |   | |              ",
-"              | |   | |              ",
-"             /  ||Y||  \\             ",
-"                || ||                ",
-"                () ()                ",
-"                || ||                ",
-"               ooO Ooo               ",
+    "                                     ",
+    "                                     ",
+    "                /^^^\\                ",
+    "               o\"  ) )               ",
+    "               (--  _|               ",
+    "                 | |                 ",
+    "                 |  |                ",
+    "                 || |                ",
+    "                 || |                ",
+    "                 |  )                ",
+    "                 | |                 ",
+    "                 | |                 ",
+    "                 | |                 ",
+    "                O__|                 "
+    },
+
+    {
+    "                                     ",
+    "                                     ",
+    "                /^^^\\                ",
+    "              (| \"o\" |)              ",
+    "               (_---_)               ",
+    "               __| |__               ",
+    "              |  . .  |              ",
+    "              | |   | |              ",
+    "              | |   | |              ",
+    "             /  ||Y||  \\             ",
+    "                || ||                ",
+    "                () ()                ",
+    "                || ||                ",
+    "               ooO Ooo               "
     },
 
     {
@@ -143,10 +161,14 @@ Fuck::Fuck(){
 
 void Fuck::runLinux(){
     
+    bool didThingy = false;
+
     initscr();
     cbreak();
     noecho();
     nodelay(stdscr,true);
+    clear();
+    refresh();
 
     getmaxyx(stdscr, w_Height, w_Width); //gives row and column numbers
                                          
@@ -159,31 +181,36 @@ void Fuck::runLinux(){
     else
         man_y = 0;
     
-    while(true){
+    while(man_x >= -manWidth){
         //eskiyi temizleyecak bir fonksiyon yaz.
         for(int i=0; i<std::min(w_Height,manHeight); i++)
             for(int j=0; j<std::min(std::min(w_Width,manWidth),(w_Width-man_x)); j++)
-                mvaddch(man_x+i,man_y+j,' ');
+                mvaddch(man_y+i,man_x+j,' ');
 
-        man_x += 3;
+        man_x -= 3;
 
-        counter%=3;
-        counter++;
+        counter%=4;
 
-        if ((man_x - 3) <= abs(w_Width - manWidth)/2)
+        if (((man_x + 3) <= abs(w_Width - manWidth)/2) && !didThingy)
         {
-            printMan(3);
-            usleep(70000);
+            didThingy = true; // I did not like the way I handle.
             printMan(4);
-            printSpeech();
-            usleep(100000);
+            usleep(1000000); //usleep sleeps for microseconds (10^6 microseconds = 1 second)
+            printMan(5);
+            // usleep(500000);
+            // printSpeech();
+            usleep(3000000);
         }
         else
             printMan(counter);
 
 
-        usleep(30000);
+        usleep(400000);
+        counter++;
     }
+    clear();
+    refresh();
+    endwin();
     
 }
 void Fuck::runWindows(){
@@ -194,7 +221,7 @@ void Fuck::runApple(){
 void Fuck::printMan(int idx){
     for(int i=0; i<std::min(w_Height,manHeight); i++)
         for(int j=0; j<std::min(std::min(w_Width,manWidth),(w_Width-man_x)); j++)
-            mvaddch(man_x+i,man_y+j,man[idx][i][j]);
+            mvaddch(man_y+i,man_x+j,man[idx][i][j]);
     refresh();
 }
 
@@ -209,7 +236,3 @@ void Fuck::printSpeech(){
     // find man coordinates and print according to that
 }
 
-void Fuck::temp(){
-    for(std::string a : fuckThing)
-        std::cout<<a<<std::endl;
-}

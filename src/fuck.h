@@ -64,7 +64,6 @@ class Fuck {
         void runWindows(); //This time I will make app windows compatible
         void runApple(); 
 
-        void temp();
 };
 
 
