@@ -205,7 +205,6 @@ void Fuck::runLinux() {
     man_y = 0;
 
   while (man_x >= -manWidth) {
-    // eskiyi temizleyecak bir fonksiyon yaz.
     for (int i = 0; i < std::min(w_Height, manHeight); i++)
       for (int j = 0;
            j < std::min(std::min(w_Width, manWidth), (w_Width - man_x)); j++)
@@ -218,8 +217,7 @@ void Fuck::runLinux() {
     if (((man_x + 3) <= abs(w_Width - manWidth) / 2) && !didThingy) {
       didThingy = true; // I did not like the way I handle.
       printMan(4);
-      usleep(1000000); // usleep sleeps for microseconds (10^6 microseconds = 1
-                       // second)
+      usleep(1000000); // usleep sleeps for microseconds (10^6 microseconds = 1 second)
       if (isLoved)
           printMan(6);
       else
@@ -255,12 +253,12 @@ void Fuck::printSpeech() {
   std::vector<std::string> bufferList;
   std::string buffer;
 
-  if (isLoved)
-    buffer = "I LOVE ";
-  else if (!noPrefix)
-    buffer = "FUCK ";
-  else 
+  if (noPrefix)
     buffer = "";
+  else if (isLoved)
+    buffer = "I LOVE ";
+  else 
+    buffer = "FUCK ";
 
   speechLen += buffer.size();
 

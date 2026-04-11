@@ -21,7 +21,7 @@ class Fuck {
                                   in big characters (not working yet.) \n\
            -n, --no-prefix      : removes the prefixes (like 'FUCK' or 'I LOVE')\n\
     \n\
-    'fuck' made with hate and pain please enjoy!\n"; // custom prefix eklemeye çok üşendim.
+    'fuck' made with hate and pain please enjoy!\n";
 
     std::vector<std::string> fuckThing = {"JAVA"};
 
