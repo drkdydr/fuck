@@ -210,11 +210,11 @@ void Fuck::runLinux() {
            j < std::min(std::min(w_Width, manWidth), (w_Width - man_x)); j++)
         mvaddch(man_y + i, man_x + j, ' ');
 
-    man_x -= 3;
 
     counter %= 4;
 
-    if (((man_x + 3) <= abs(w_Width - manWidth) / 2) && !didThingy) {
+    if (((man_x - 3) <= abs(w_Width - manWidth) / 2) && !didThingy) { 
+        man_x = abs(w_Width - manWidth) / 2;
       didThingy = true; // I did not like the way I handle.
       printMan(4);
       usleep(1000000); // usleep sleeps for microseconds (10^6 microseconds = 1 second)
@@ -228,6 +228,7 @@ void Fuck::runLinux() {
       printMan(4);
       usleep(200000);
     } else
+        man_x-=3;
       printMan(counter);
 
     usleep(300000);
