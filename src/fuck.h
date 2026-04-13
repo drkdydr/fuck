@@ -6,7 +6,7 @@
 
 class Fuck {
     
-    const char* version = "v.0.0";
+    const char* version = "v.1.0";
     const char* helpMessage =
     "fuck is small terminal program to fuck the things that makes you mad\n\
     usage: fuck [-le] <message> (java for default) \n\
@@ -18,7 +18,7 @@ class Fuck {
     \n\
            -l, -love            : love, do not hate (fuck sitcoms)\n\
            -e, --exaggerate     : exaggerates your feelings and prints message\n\
-                                  in big characters (not working yet.) \n\
+                                  (turns your input uppercase)\n\
            -n, --no-prefix      : removes the prefixes (like 'FUCK' or 'I LOVE')\n\
     \n\
     'fuck' made with hate and pain please enjoy!\n";

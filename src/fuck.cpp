@@ -7,11 +7,8 @@
 #include <vector>
 
 //todo: 
-// custom prefix opsiyonu eklenecek.
-// exaggerate flag'i çalışır hale getirilecek.
 // bubble'da ok kısmında ufak bir problem var.
 
-const std::vector<std::vector<const char *>> Fuck::letters = {};
 const std::vector<std::vector<const char *>> Fuck::man = {
     {"                                     ",
      "                                     ",
@@ -143,7 +140,7 @@ void Fuck::handleArgs(char *&arg) {
     exit(0);
   } else if (!strcmp(arg, "-l") || !strcmp(arg, "--love")) {
     isLoved = true;
-  } else if (!strcmp(arg, "-e") || !strcmp(arg, "--exaggerate")) {
+  } else if (!strcmp(arg, "-e") || !strcmp(arg, "--exaggerate")){
     isExaggerated = true;
   } else if (!strcmp(arg, "-n") || !strcmp(arg, "--no-prefix")) {
     noPrefix = true;
@@ -160,6 +157,11 @@ void Fuck::handleArgs(char *&arg) {
 
     if (!stringFinished) {
       stringDetected = true;
+
+      if (isExaggerated)
+          for(int i = 0 ; arg[i] != '\0'; i++) // make word uppercase
+              arg[i] = std::toupper(arg[i]);
+
       fuckThing.push_back(arg);
       speechLen += strlen(arg) + 1; // for space
     } else {
@@ -171,7 +173,7 @@ void Fuck::handleArgs(char *&arg) {
 }
 
 Fuck::Fuck() {
-  isExaggerated = false;
+    isExaggerated = false;
   isLoved = false;
   noPrefix = false;
 
@@ -285,19 +287,23 @@ void Fuck::printSpeech() {
     buffer.pop_back(); // removes last character of string (space in this case)
     bufferList.push_back(buffer);
   }
-
   // print borders
-  mvprintw(man_y - 1, man_x + ((manWidth - 2) / 2), "\\/");
-  mvprintw(man_y - (bufferList.size() + 4), man_x + (manWidth / 2), "__");
-  for (int i = 0; i < (bubbleLen + 2) / 2; i++) {
-    mvaddch(man_y - 2, man_x + (manWidth / 2) - 1 - i, '_');
-    mvaddch(man_y - (bufferList.size() + 4), man_x + (manWidth / 2) - 1 - i, '_');
-    mvaddch(man_y - 2, man_x + (manWidth / 2) + 1 + i, '_');
-    mvaddch(man_y - (bufferList.size() + 4), man_x + (manWidth / 2) + 1 + i, '_');
+
+  for (int i = 1; i <= (bubbleLen + 2) / 2; i++) {
+        mvaddch(man_y - (bufferList.size() + 4), man_x + (manWidth / 2) - i, '_');
+        mvaddch(man_y - (bufferList.size() + 4), man_x + (manWidth / 2) + i - 1, '_');
+    if (i != 1){
+        mvaddch(man_y - 2, man_x + (manWidth / 2) - i, '_');
+        mvaddch(man_y - 2, man_x + (manWidth / 2) + i - 1, '_');
+    }else{
+        mvaddch(man_y - 1, man_x + (manWidth / 2) - 1, '\\');
+        mvaddch(man_y - 1, man_x + (manWidth / 2), '/');
+    }
   }
+
   for (int i = 0; i < bufferList.size() + 2; i++) {
     mvaddch(man_y - 2 - i, man_x + (manWidth / 2) - (bubbleLen + 4) / 2, '|');
-    mvaddch(man_y - 2 - i, man_x + (manWidth / 2) + (bubbleLen + 4) / 2, '|');
+    mvaddch(man_y - 2 - i, man_x + (manWidth / 2) + ((bubbleLen + 4) / 2) - 1, '|');
   }
 
   // print words
@@ -310,18 +316,22 @@ void Fuck::printSpeech() {
   refresh();
   usleep(3000000);
 
-  // remove bubble (I couldn't think a way that makes more sense)
-  mvprintw(man_y - 1, man_x + ((manWidth - 2) / 2), "  ");
-  mvprintw(man_y - (bufferList.size() + 4), man_x + (manWidth / 2), "  ");
-  for (int i = 0; i < (bubbleLen + 2) / 2; i++) {
-    mvaddch(man_y - 2, man_x + (manWidth / 2) - 1- i, ' ');
-    mvaddch(man_y - (bufferList.size() + 4), man_x + (manWidth / 2) - 1 - i, ' ');
-    mvaddch(man_y - 2, man_x + (manWidth / 2) + 1 + i, ' ');
-    mvaddch(man_y - (bufferList.size() + 4), man_x + (manWidth / 2) + 1 + i, ' ');
+  // remove bubble 
+  for (int i = 1; i <= (bubbleLen + 2) / 2; i++) {
+        mvaddch(man_y - (bufferList.size() + 4), man_x + (manWidth / 2) - i, ' ');
+        mvaddch(man_y - (bufferList.size() + 4), man_x + (manWidth / 2) + i - 1, ' ');
+    if (i != 1){
+        mvaddch(man_y - 2, man_x + (manWidth / 2) - i, ' ');
+        mvaddch(man_y - 2, man_x + (manWidth / 2) + i - 1, ' ');
+    }else{
+        mvaddch(man_y - 1, man_x + (manWidth / 2) - 1, ' ');
+        mvaddch(man_y - 1, man_x + (manWidth / 2), ' ');
+    }
   }
+
   for (int i = 0; i < bufferList.size() + 2; i++) {
     mvaddch(man_y - 2 - i, man_x + (manWidth / 2) - (bubbleLen + 4) / 2, ' ');
-    mvaddch(man_y - 2 - i, man_x + (manWidth / 2) + (bubbleLen + 4) / 2, ' ');
+    mvaddch(man_y - 2 - i, man_x + (manWidth / 2) + ((bubbleLen + 4) / 2) - 1, ' ');
   }
 
   // print words
