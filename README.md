@@ -2,9 +2,9 @@
 
 ## What the Fuck?
 
-Fuck is a small animation code (inspired by sl) that works on your terminal and allows you to express your negative feelings about some situations.
+Fuck is a small animation script (inspired by sl) that works on your terminal and allows you to express your negative feelings about some situations.
 
-you do not have to hate, you can love with fuck too. (with -l or --love flag)
+you do not have to hate, you can also fuck things that you love. (with -l or --love flag)
 
 ## Installation 
 
