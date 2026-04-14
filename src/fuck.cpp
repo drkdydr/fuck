@@ -158,12 +158,9 @@ void Fuck::handleArgs(char *&arg) {
     if (!stringFinished) {
       stringDetected = true;
 
-      if (isExaggerated)
-          for(int i = 0 ; arg[i] != '\0'; i++) // make word uppercase
-              arg[i] = std::toupper(arg[i]);
-
       fuckThing.push_back(arg);
       speechLen += strlen(arg) + 1; // for space
+                                    
     } else {
       std::cout << "fuck: invalid argument -- '" << arg
                 << "'\nTry 'fuck --help' for more information.\n";
@@ -183,9 +180,17 @@ Fuck::Fuck() {
   manHeight = man[0].size();
 }
 
+void Fuck::exaggerate(){
+    for(std::string &s : fuckThing)
+        for(int i = 0; s[i] != '\0'; i++)
+            s[i] = std::toupper(static_cast<unsigned char>(s[i]));
+}
+
 void Fuck::runLinux() {
 
   bool didThingy = false;
+
+  if (isExaggerated) exaggerate();
 
   initscr();
   cbreak();
@@ -274,6 +279,7 @@ void Fuck::printSpeech() {
   }
 
   for (std::string s : fuckThing) {
+
     if (buffer.size() + s.size() > bubbleLen) {
       buffer.pop_back();
       bufferList.push_back(buffer);

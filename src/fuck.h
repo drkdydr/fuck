@@ -53,6 +53,7 @@ class Fuck {
     void printSpeech();
     void clearSpeech();
     void printMan(int idx);
+    void exaggerate();
 
     public: 
         Fuck();
