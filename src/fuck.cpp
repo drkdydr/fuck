@@ -293,6 +293,7 @@ void Fuck::printSpeech() {
     buffer.pop_back(); // removes last character of string (space in this case)
     bufferList.push_back(buffer);
   }
+
   // print borders
 
   for (int i = 1; i <= (bubbleLen + 2) / 2; i++) {
