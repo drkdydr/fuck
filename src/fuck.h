@@ -55,6 +55,7 @@ options:\n\
     void printMan(int idx);
     void makeHandThing(bool hasHate, bool hasAnger);
     void exaggerate();
+    void printGround();
 
     public: 
         Fuck();

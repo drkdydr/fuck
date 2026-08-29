@@ -30,7 +30,7 @@ const std::vector<std::vector<const char *>> Fuck::man = {
      "                / /\\ \\               ",
      "               ()|  ()\\              ",
      "               | |    \\ \\            ",
-     "              O__|    O_/            "},
+     "------------- O__| -- O_/ -----------"},
 
     {"                                     ",
      "                                     ",
@@ -45,7 +45,7 @@ const std::vector<std::vector<const char *>> Fuck::man = {
      "                 | |                 ",
      "                 | |                 ",
      "                 | |                 ",
-     "                O__|                 "},
+     "--------------- O__| ----------------"},
 
     {"                                     ",
      "                                     ",
@@ -60,7 +60,7 @@ const std::vector<std::vector<const char *>> Fuck::man = {
      "               / /\\ \\                ",
      "              ()|  ()\\               ",
      "              | |    \\ \\             ",
-     "             O__|    O_/             "},
+     "------------ O__| -- O_/ ------------"},
 
     {"                                     ",
      "                                     ",
@@ -75,7 +75,7 @@ const std::vector<std::vector<const char *>> Fuck::man = {
      "                 | |                 ",
      "                 | |                 ",
      "                 | |                 ",
-     "                O__|                 "},
+     "--------------- O__| ----------------"},
 
     {"                                     ",
      "                                     ",
@@ -90,7 +90,7 @@ const std::vector<std::vector<const char *>> Fuck::man = {
      "                || ||                ",
      "                () ()                ",
      "                || ||                ",
-     "               ooO Ooo               "},
+     "-------------- ooO Ooo --------------"},
 
     {"     _                         _     ",
      "    |_|                       |_|    ",
@@ -105,7 +105,7 @@ const std::vector<std::vector<const char *>> Fuck::man = {
      "       \\_/      || ||      \\_/       ",
      "                () ()                ",
      "                || ||                ",
-     "               ooO Ooo               "},
+     "-------------- ooO Ooo --------------"},
 
     {
         "                                     ",
@@ -121,8 +121,7 @@ const std::vector<std::vector<const char *>> Fuck::man = {
         "                || ||                ",
         "                () ()                ",
         "                || ||                ",
-        "               ooO Ooo               "
-    }
+     "-------------- ooO Ooo --------------"},
 };
 
 void Fuck::handleArgs(char *&arg) {
@@ -225,10 +224,15 @@ void Fuck::runLinux() {
 
   while (man_x >= -manWidth && (input = getch())) {
         flushinp(); // delete key buffer
+                    
+      // delete previous man
     for (int i = 0; i < std::min(w_Height, manHeight); i++)
       for (int j = 0;
            j < std::min(std::min(w_Width, manWidth), (w_Width - man_x)); j++)
         mvaddch(man_y + i, man_x + j, ' ');
+
+    // printGround
+    printGround();
 
     if (input == KEY_LEFT){ // make him faster
           man_x = std::max(-manWidth, man_x - 5); // cannot go further than end point
@@ -393,4 +397,14 @@ void Fuck::makeHandThing(bool hasHate, bool hasAnger){
       printMan(4);
       usleep(200000);
       flushinp(); // delete inputs that came while sleeping
+}
+
+void Fuck::printGround(){
+      int ground_y = man_y + manHeight - 1;
+      move(ground_y, 0);
+      for (int i = 0; i < COLS; i++){
+            addch('-');
+
+      }
+
 }
