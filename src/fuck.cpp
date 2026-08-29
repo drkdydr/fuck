@@ -7,6 +7,12 @@
 #include <unistd.h> //usleep
 #include <vector>
 
+#define ANGER_LIMIT 15
+
+// LOGIC:
+// if you push back so many times he gets mad (ANGER)
+// if he has hate he swears (HATE)
+
 //todo: 
 // bubble'da ok kısmında ufak bir problem var.
 
@@ -88,7 +94,7 @@ const std::vector<std::vector<const char *>> Fuck::man = {
 
     {"     _                         _     ",
      "    |_|                       |_|    ",
-     "    | |         /^^^\\         | |    ",
+     "    | |         /\\^/\\         | |    ",
      "   _| |_      (| \"o\" |)      _| |_   ",
      " _| | | | _    (_---_)    _ | | | |_ ",
      "| | | | |' |    _| |_    | `| | | | |",
@@ -192,6 +198,7 @@ void Fuck::runLinux() {
   bool didThingy = false; // have mascott did the hand thing
                           
   int input;
+  int angerPoint = 0; // times you press KEY_RIGHT
 
   if (isExaggerated) exaggerate();
 
@@ -228,7 +235,13 @@ void Fuck::runLinux() {
     }else if (input == KEY_RIGHT){ // make him struggle
           man_x = std::min(w_Width - 1, man_x + 5); // cannot go further than start point
           counter = 1; // both feet on ground (struggling effect)
+            angerPoint ++;
     }
+
+    if (angerPoint == ANGER_LIMIT){
+      angerPoint = 0;
+      makeHandThing(true, true); // has hate and has anger
+    } 
       // also we hold info that "did the hand thingy" if mascott goes back of the center again does not did hand thing again
 
     counter %= 4; // which man apperance will shown
@@ -236,22 +249,16 @@ void Fuck::runLinux() {
     if (((man_x - 3) <= abs(w_Width - manWidth) / 2) && !didThingy) { 
         man_x = abs(w_Width - manWidth) / 2; // place mascott middle
       didThingy = true; // I did not like the way I handle.
-      printMan(4);
-      usleep(1000000); // usleep sleeps for microseconds (10^6 microseconds = 1 second)
-      if (isLoved)
-          printMan(6); // love
-      else
-          printMan(5); // hate
-      usleep(200000);
-      printSpeech();
-      usleep(600000);
-      printMan(4);
-      usleep(200000);
+      if (isLoved){
+            makeHandThing(false, false); // has no hate nor anger (love)
+      }else{
+            makeHandThing(true, false); // has hate but no anger (hate)
+      }
     } else
         man_x-=3;
       printMan(counter);
 
-    usleep(300000);
+    usleep(300000); // wait before next iteration (0.3 sec)
     counter++;
   }
   clear();
@@ -269,12 +276,15 @@ void Fuck::printMan(int idx) {
   refresh();
 }
 
-void Fuck::printSpeech() {
+void Fuck::printSpeech(bool hasAnger) {
 
   std::vector<std::string> bufferList;
   std::string buffer;
 
-  if (noPrefix)
+
+  if (hasAnger) // if 
+        buffer = "STOP IT!!";
+  else if (noPrefix)
     buffer = "";
   else if (isLoved)
     buffer = "I LOVE ";
@@ -291,17 +301,21 @@ void Fuck::printSpeech() {
     bubbleLen = maxbubbleLen;
   }
 
-  for (std::string s : fuckThing) {
+  // anger mode overrides hate thing 
+  if (!hasAnger){
+        for (std::string s : fuckThing) {
 
-    if (buffer.size() + s.size() > bubbleLen) {
-      buffer.pop_back();
-      bufferList.push_back(buffer);
-      buffer = "";
-    } else {
-      buffer.append(s);
-      buffer.append(" ");
-    }
+          if (buffer.size() + s.size() > bubbleLen) {
+            buffer.pop_back();
+            bufferList.push_back(buffer);
+            buffer = "";
+          } else {
+            buffer.append(s);
+            buffer.append(" ");
+          }
+        }
   }
+
   if (!buffer.empty()) {
     buffer.pop_back(); // removes last character of string (space in this case)
     bufferList.push_back(buffer);
@@ -362,6 +376,21 @@ void Fuck::printSpeech() {
         addch(' ');
   }
   refresh();
+  speechLen -= buffer.size(); // revert size change
 
 }
 
+void Fuck::makeHandThing(bool hasHate, bool hasAnger){
+      printMan(4);
+      usleep(1000000); // usleep sleeps for microseconds (10^6 microseconds = 1 second)
+      if (hasHate) // hate
+          printMan(5); // hate
+      else
+          printMan(6); // love
+      usleep(200000);
+      printSpeech(hasAnger);
+      usleep(600000);
+      printMan(4);
+      usleep(200000);
+      flushinp(); // delete inputs that came while sleeping
+}

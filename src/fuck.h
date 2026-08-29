@@ -50,9 +50,10 @@ options:\n\
 
     int counter;
 
-    void printSpeech();
-    void clearSpeech();
+    void printSpeech(bool hasAnger);
+    // void clearSpeech();
     void printMan(int idx);
+    void makeHandThing(bool hasHate, bool hasAnger);
     void exaggerate();
 
     public: 
