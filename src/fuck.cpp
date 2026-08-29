@@ -1,4 +1,5 @@
 #include "fuck.h"
+#include <algorithm>
 #include <cstdio>
 #include <iostream>
 #include <ncurses.h>
@@ -188,10 +189,13 @@ void Fuck::exaggerate(){
 
 void Fuck::runLinux() {
 
-  bool didThingy = false;
+  bool didThingy = false; // have mascott did the hand thing
+                          
+  int input;
 
   if (isExaggerated) exaggerate();
 
+  // initializing/configuring ncurses
   initscr();
   cbreak();
   noecho();
@@ -199,6 +203,7 @@ void Fuck::runLinux() {
   curs_set(0); // makes cursor invincible
   clear();
   refresh();
+  keypad(stdscr, TRUE); // for arrow key macros
 
   getmaxyx(stdscr, w_Height, w_Width); // gives row and column numbers
 
@@ -211,24 +216,32 @@ void Fuck::runLinux() {
   else
     man_y = 0;
 
-  while (man_x >= -manWidth) {
+  while (man_x >= -manWidth && (input = getch())) {
+        flushinp(); // delete key buffer
     for (int i = 0; i < std::min(w_Height, manHeight); i++)
       for (int j = 0;
            j < std::min(std::min(w_Width, manWidth), (w_Width - man_x)); j++)
         mvaddch(man_y + i, man_x + j, ' ');
 
+    if (input == KEY_LEFT){ // make him faster
+          man_x = std::max(-manWidth, man_x - 5); // cannot go further than end point
+    }else if (input == KEY_RIGHT){ // make him struggle
+          man_x = std::min(w_Width - 1, man_x + 5); // cannot go further than start point
+          counter = 1; // both feet on ground (struggling effect)
+    }
+      // also we hold info that "did the hand thingy" if mascott goes back of the center again does not did hand thing again
 
-    counter %= 4;
+    counter %= 4; // which man apperance will shown
 
     if (((man_x - 3) <= abs(w_Width - manWidth) / 2) && !didThingy) { 
-        man_x = abs(w_Width - manWidth) / 2;
+        man_x = abs(w_Width - manWidth) / 2; // place mascott middle
       didThingy = true; // I did not like the way I handle.
       printMan(4);
       usleep(1000000); // usleep sleeps for microseconds (10^6 microseconds = 1 second)
       if (isLoved)
-          printMan(6);
+          printMan(6); // love
       else
-          printMan(5);
+          printMan(5); // hate
       usleep(200000);
       printSpeech();
       usleep(600000);
